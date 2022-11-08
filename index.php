@@ -52,6 +52,13 @@
                         <input type="text" class="form-control" id="brInd" placeholder="npr. 2020/0001">
                     </div>
                 </div>
+                <!--Zemlja-->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="zemlja">Zemlja</label>
+                        <input type="text" class="form-control" id="zemlja" placeholder="Zemlja porekla">
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="dodajStudenta()">Sacuvaj</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Zatvori</button>
@@ -65,6 +72,10 @@
     <div class="container my-3">
         <h1 class="text-center my-4">Evidencija studenata</h1>
         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#completeModal"> Dodaj </button>
+    
+        <div id="prikaziTabeluPodataka">  </div>
+
+
     </div>
 
     <!--Bootstrap JQUERY POPPER I BOOTSTRAP-->
@@ -72,31 +83,71 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<!-- JS skripta koja cita ime i prezime preko id i cuva u promenljive-->
+    <!-- JS skripta koja cita ime i prezime preko id i cuva u promenljive-->
     <script>
+
+        $(document).ready(function(){
+            prikaziPodatke();
+        }); //kada god je dokument spreman uradi funkciju prikaziPodatke()
+
+
+        //prikaz na ekranu
+        function prikaziPodatke() {
+            var prikaziPodatke="true";
+            $.ajax({
+                url:"display.php",
+                type: 'post',
+                data:{
+                    prikaziPodatkeSend: prikaziPodatke
+                },
+                success:function(data, status)
+                {
+                    $('#prikaziTabeluPodataka').html(data); //jquery html metoda
+                }
+            });
+        }
+        //brisanje 
+
+        function izbrisiPodatke(deleteid){
+            $.ajax({
+                url:"delete.php",
+                type: 'post',
+                data:{
+                    deleteSend: deleteid
+                },
+                success:function(data, status){
+                    prikaziPodatke();
+                }
+            });
+        }
+
+
         function dodajStudenta() {
             var imePrezime = $('#imePrezime').val();
             var email = $('#email').val();
             var brTel = $('#brTel').val();
             var brInd = $('#brInd').val();
+            var zemlja = $('#zemlja').val();
 
-//AJAX i JQUERY
+            //AJAX i JQUERY
             $.ajax({
                 //url - gde zelimo da saljemo podatke
-                url:"insert.php", 
+                url: "insert.php",
                 //tip 'POST' , saljemo samo post zahteve
                 type: 'post',
                 //data -
                 data: {
-                    imePrezimeSend: imePrezime, 
+                    imePrezimeSend: imePrezime,
                     emailSend: email,
                     brTelSend: brTel,
-                    brIndSend: brInd
-                },  //success
-                success:function(data, status){
+                    brIndSend: brInd,
+                    zemljaSend: zemlja
+                }, //success
+                success: function(data, status) {
                     console.log(status);
+                    prikaziPodatke();
                 }
-              
+
             });
 
         }
