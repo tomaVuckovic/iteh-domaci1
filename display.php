@@ -12,12 +12,14 @@ if (isset($_POST['prikaziPodatkeSend'])) {
         <th scope="col">Broj telefona</th>
         <th scope="col">Broj indeksa</th>
         <th scope="col">Zemlja</th>
-        <th scope="col">U D</th>
+        <th scope="col"> </th>
       </tr>
     </thead>';
 
+    
     //izvlacenje podataka iz baze
-    $sql = "SELECT * FROM `crud`";
+   // $sql = "SELECT * FROM `crud`";
+    $sql = "SELECT crud.* , zemlja.ime as zemlja  FROM crud LEFT JOIN zemlja ON crud.zemlja = zemlja.id";
     $result = mysqli_query($con, $sql);
     // da bi ID u tabeli na sajtu bio redom
     $brojID =1;
@@ -39,13 +41,14 @@ if (isset($_POST['prikaziPodatkeSend'])) {
         <td>'.$brInd.'</td>
         <td>'.$zemlja.'</td>
         <td> 
-        <button class="btn btn-warning"> Izmeni </button>
         <button class="btn btn-danger" onclick="izbrisiPodatke('.$id.')"> Izbrisi </button>
         </td>
 
       </tr>';
       $brojID++;
     }
+  //    <button class="btn btn-warning" onclick="izmeniPodatke('.$id.')"> Izmeni </button>
+
 
     $table.='</table>';
     echo $table;
