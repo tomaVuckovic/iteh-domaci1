@@ -84,63 +84,6 @@
     </div>
 
 
-    <!-- UPDATE MODAL-->
-    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Izmena podataka o studentu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!--Ime i prezime-->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IzmeniImePrezime">Ime i prezime</label>
-                        <input type="text" class="form-control" id="IzmeniImePrezime" placeholder="Unesite ime i prezime">
-                    </div>
-                </div>
-                <!--Email-->
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IzmeniEmail">Email</label>
-                        <input type="email" class="form-control" id="IzmeniEmail" placeholder="email@example.com">
-                    </div>
-                </div>
-                <!--Broj telefona-->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IzmeniBrTel">Broj telefona</label>
-                        <input type="text" class="form-control" id="IzmeniBrTel" placeholder="+3816...">
-                    </div>
-                </div>
-
-                <!--Broj indeksa -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IzmeniBrInd">Broj indeksa</label>
-                        <input type="text" class="form-control" id="IzmeniBrInd" placeholder="npr. 2020/0001">
-                    </div>
-                </div>
-                <!--Zemlja-->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IzmeniZemlju">Zemlja</label>
-                        <input type="text" class="form-control" id="IzmeniZemlju" placeholder="Zemlja porekla">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Sacuvaj promene</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zatvori</button>
-                    <input type="hidden" id="hiddendata">
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div class="container my-3">
         <h1 class="text-center my-4">Evidencija studenata</h1>
         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#completeModal"> Dodaj </button>
@@ -229,26 +172,6 @@
         var vrednost = vrednost;
 
         document.getElementById("zemlja").value = vrednost;
-        }
-
-        //Funkcija za izmenu podataka u tabeli
-        function izmeniPodatke(updateid) {
-            //u skrivenu #id formu cuvamo nove podatke
-            $('#hiddendata').val(updateid);
-            //kod kojim pristupamo bazi podataka koristeci JSON i uzimamo val iz tabele i cuvamo u #id promenljvih u modalu
-            $.post("update.php", {
-                updateid: updateid
-            }, function(data, status) {
-                var userid = JSON.pars(data); //JSON objekat pretvaramo u javascript objekat
-                $('#IzmeniImePrezime').val(userid.imePrezime);
-                $('#IzmeniEmail').val(userid.email);
-                $('#IzmeniBrTel').val(userid.brTel);
-                $('#IzmeniBrInd').val(userid.brInd);
-                $('#IzmeniZemlju').val(userid.zemlja);
-                //
-            });
-
-            $('#updateModal').modal('show');
         }
     </script>
 
